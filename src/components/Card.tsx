@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import Image from 'next/image';
+
 export interface CardProps {
   companyName?: string;
   companyLogo?: string;
@@ -63,7 +65,15 @@ export default function Card({
       <div className="bg-[#4a6b5a] text-white px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {companyLogo ? (
-            <img src={companyLogo} alt={companyName} className="h-6" />
+            // <img src={companyLogo} alt={companyName} className="h-6" />
+              <Image
+                  src={companyLogo}
+                  alt={companyName}
+                  // width={600}
+                  // height={400}
+                  // className="rounded-lg"
+                  className="h-6"
+              />
           ) : (
             <span className="font-semibold text-lg">{companyName}</span>
           )}
