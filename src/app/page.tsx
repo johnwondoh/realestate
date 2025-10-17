@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Card from '@/components/Card';
+import BaseSearch from '@/components/BaseSearch';
+import FeatureCard from '@/components/FeatureCard';
 
 const housesData = [
   {
@@ -97,11 +99,62 @@ const housesData = [
 ];
 
 const Home = () => {
+  const handleSearch = (query: string, tab: string) => {
+    console.log('Search:', query, 'Tab:', tab);
+  };
+
+  const handleFilterClick = () => {
+    console.log('Filters clicked');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <section className="mb-8">
+        <BaseSearch onSearch={handleSearch} onFilterClick={handleFilterClick} />
+      </section>
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <section className="mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-8">Available Houses</h2>
+          <h2 className="text-heading-2 font-bold text-dark-900 mb-8">Feature Components Demo</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <FeatureCard
+              icon={
+                <svg className="w-16 h-16 text-red" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                </svg>
+              }
+              title="Get estimated property prices with a realEstimate™"
+              description="See how much your property's worth whether you own it or want to buy it."
+              linkText="Check property values"
+              linkHref="/property-values"
+            />
+            <FeatureCard
+              icon={
+                <svg className="w-16 h-16 text-red" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+              }
+              title="Find the best agents in your area"
+              description="Connect with top-rated real estate agents who know your market inside and out."
+              linkText="Browse agents"
+              linkHref="/agents"
+            />
+            <FeatureCard
+              icon={
+                <svg className="w-16 h-16 text-red" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z" />
+                </svg>
+              }
+              title="Track your property portfolio"
+              description="Monitor all your properties in one place with real-time market updates."
+              linkText="Get started"
+              linkHref="/portfolio"
+            />
+          </div>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-heading-2 font-bold text-dark-900 mb-8">Available Houses</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {housesData.map((house) => (
               <Card
