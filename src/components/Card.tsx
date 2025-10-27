@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { BedDouble, Bath, CarFront, RotateCwSquare} from 'lucide-react';
 
 import Image from 'next/image';
 
@@ -60,7 +61,8 @@ export default function Card({
 
   return (
     <div
-      className={`bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow ${className}`}
+      // className={`bg-white mb-4 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow ${className}`}
+      className={`bg-white mb-4 rounded-lg overflow-hidden shadow-md hover:shadow-xs transition-shadow ${className}`}
     >
       <div className="bg-[#4a6b5a] text-white px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -90,7 +92,9 @@ export default function Card({
         </div>
       </div>
 
-      <div className="relative aspect-[4/3] bg-gray-200 overflow-hidden">
+      {/*<div className="relative aspect-[4/3] bg-gray-200 overflow-hidden">*/}
+      {/*<div className="relative aspect-[4/2] bg-gray-200 overflow-hidden">*/}
+      <div className="relative aspect-[4/2] bg-gray-200">
         <img
           src={images[currentImageIndex]}
           alt={`Property ${currentImageIndex + 1}`}
@@ -141,11 +145,11 @@ export default function Card({
         )}
       </div>
 
-      <div className="p-4">
-        <div className="flex items-start justify-between mb-2">
-          <h3 className="text-2xl font-bold text-gray-900">
+      <div className="p-2">
+        <div className="flex items-start justify-between ">
+          <h4 className="text-lg font-bold text-gray-900">
             {formatPrice(priceMin)} - {formatPrice(priceMax)}
-          </h3>
+          </h4>
           <button
             onClick={() => setIsFavorite(!isFavorite)}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -169,34 +173,26 @@ export default function Card({
           </button>
         </div>
 
-        <p className="text-lg text-gray-800 mb-3">{address}</p>
+        <p className="text-base text-gray-800 mb-2">{address}</p>
 
         <div className="flex items-center gap-4 text-gray-700 mb-3">
           <div className="flex items-center gap-1">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-6.18C12.4 5.84 11.3 5 10 5H4c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM7 17.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25S8.25 15.31 8.25 16 7.69 17.25 7 17.25zM19 12h-3V9h1.96L19 12z" />
-            </svg>
-            <span className="font-medium">{bedrooms}</span>
+              <span><BedDouble/></span>
+              <span className="font-medium">{bedrooms}</span>
           </div>
           <div className="flex items-center gap-1">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm3-6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm3 9c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm3-3h-2V4h2v8z" />
-            </svg>
-            <span className="font-medium">{bathrooms}</span>
+              <span><Bath /></span>
+              <span className="font-medium">{bathrooms}</span>
           </div>
           <div className="flex items-center gap-1">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z" />
-            </svg>
-            <span className="font-medium">{parking}</span>
+              <span><CarFront /></span>
+              <span className="font-medium">{parking}</span>
           </div>
           <div className="flex items-center gap-1">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
-            </svg>
-            <span className="font-medium">
-              {size}m<sup>2</sup>
-            </span>
+              <span><RotateCwSquare /></span>
+              <span className="font-medium">
+                  {size}m<sup>2</sup>
+              </span>
           </div>
           <span className="text-gray-600">•</span>
           <span className="font-medium">{propertyType}</span>

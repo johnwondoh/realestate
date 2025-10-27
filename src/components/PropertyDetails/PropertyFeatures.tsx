@@ -1,5 +1,7 @@
 import { Home, Droplets, Bath } from 'lucide-react';
 
+
+
 const PropertyFeatures = () => {
     const features = [
         { icon: Home, label: 'Building size', value: '95m²' },
