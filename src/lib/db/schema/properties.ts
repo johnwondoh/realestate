@@ -46,13 +46,13 @@ export const properties = pgTable('properties', {
     virtualTourUrl: text('virtual_tour_url'),
 
     // check if commercial
-    isResidential: boolean('residential').default(true).notNull(),
+    isResidential: boolean('is_residential').default(true).notNull(),
 
     // Status
     status: propertyStatusEnum('status').default('buy').notNull(),
     listedDate: timestamp('listed_date').defaultNow().notNull(),
     soldDate: timestamp('sold_date'),
-    soldPrice: decimal('max_price', { precision: 12, scale: 2 }),
+    soldPrice: decimal('sold_price', { precision: 12, scale: 2 }),
 
     // Metadata
     viewCount: integer('view_count').default(0).notNull(),
