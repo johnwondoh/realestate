@@ -1,24 +1,38 @@
+'use client';
+
 import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
 
 interface PropertySortProps {
-    options?: string[];
+    options?: Array<{ label: string; value: string }>;
     defaultValue?: string;
-    onChange?: (value: string) => void;
 }
 
 export default function PropertySort({
-                          options = ['Featured', 'Price (Low to High)', 'Price (High to Low)', 'Newest', 'Oldest'],
-                          defaultValue = 'Featured',
-                          onChange
-                      }: PropertySortProps) {
-    const [selectedOption, setSelectedOption] = useState(defaultValue);
+                                         options = [
+                                             { label: 'Featured', value: 'featured' },
+                                             { label: 'Price (Low to High)', value: 'price-low' },
+                                             { label: 'Price (High to Low)', value: 'price-high' },
+                                             { label: 'Newest', value: 'newest' },
+                                             { label: 'Oldest', value: 'oldest' },
+                                         ],
+                                         defaultValue = 'featured'
+                                     }: PropertySortProps) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const currentSort = searchParams.get('sort') || defaultValue;
+
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleSelect = (option: string) => {
-        setSelectedOption(option);
+    const selectedLabel = options.find(opt => opt.value === currentSort)?.label || 'Featured';
+
+    const handleSelect = (value: string) => {
         setIsOpen(false);
-        onChange?.(option);
+        const params = new URLSearchParams(searchParams);
+        params.set('sort', value);
+        params.delete('page'); // Reset to page 1 when sorting changes
+        router.push(`?${params.toString()}`);
     };
 
     return (
@@ -30,30 +44,27 @@ export default function PropertySort({
                     onClick={() => setIsOpen(!isOpen)}
                     className="flex items-center justify-between gap-4 px-6 py-1 border-2 border-gray-300 rounded-xl bg-white hover:bg-gray-50 transition-colors min-w-[200px]"
                 >
-                    <span className="text-base text-gray-800">{selectedOption}</span>
+                    <span className="text-base text-gray-800">{selectedLabel}</span>
                     <ChevronDown className={`w-5 h-5 text-gray-700 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Dropdown Menu */}
                 {isOpen && (
                     <>
-                        {/* Backdrop */}
                         <div
                             className="fixed inset-0 z-10"
                             onClick={() => setIsOpen(false)}
                         />
 
-                        {/* Options */}
                         <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-300 rounded-xl shadow-lg z-20 overflow-hidden">
                             {options.map((option) => (
                                 <button
-                                    key={option}
-                                    onClick={() => handleSelect(option)}
+                                    key={option.value}
+                                    onClick={() => handleSelect(option.value)}
                                     className={`w-full px-6 py-3 text-left text-lg hover:bg-gray-50 transition-colors ${
-                                        selectedOption === option ? 'bg-gray-100 font-semibold' : ''
+                                        currentSort === option.value ? 'bg-gray-100 font-semibold' : ''
                                     }`}
                                 >
-                                    {option}
+                                    {option.label}
                                 </button>
                             ))}
                         </div>
@@ -62,17 +73,4 @@ export default function PropertySort({
             </div>
         </div>
     );
-};
-
-// Example usage
-// const PropertySortExample = () => {
-//     return (
-//         <div className="p-8 bg-gray-50">
-//             <PropertySort
-//                 onChange={(value) => console.log('Selected:', value)}
-//             />
-//         </div>
-//     );
-// };
-
-// export default PropertySortExample;
+}
