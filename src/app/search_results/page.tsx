@@ -18,7 +18,7 @@ interface PageProps {
     }>;
 }
 
-const ITEMS_PER_PAGE = 20;
+const ITEMS_PER_PAGE = 10;
 
 async function getProperties(page: number = 1, sortBy: string = 'featured') {
     const offset = (page - 1) * ITEMS_PER_PAGE;
@@ -93,6 +93,8 @@ export default async function PropertiesPage({ searchParams }: PageProps) {
                     <PropertySearchSummary
                         title="Real Estate & Property for sale"
                         totalProperties={totalCount}
+                        currentPage={currentPage}
+                        pageSize={ITEMS_PER_PAGE}
                     />
                 </section>
 

@@ -12,7 +12,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
 
-export default function Page(props) {
+export default function PropertyDetailsPage(props) {
     return (
         <>
             <Navbar/>
