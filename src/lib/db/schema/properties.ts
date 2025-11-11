@@ -22,7 +22,7 @@ export const properties = pgTable('properties', {
 
     // Address
     address: varchar('address', { length: 255 }).notNull(),
-    country: varchar('city', { length: 100 }).notNull(),
+    country: varchar('country', { length: 100 }).notNull(),
     city: varchar('city', { length: 100 }).notNull(),
     state: varchar('state', { length: 50 }).notNull(),
     suburb: varchar('suburb', { length: 100 }).notNull(),

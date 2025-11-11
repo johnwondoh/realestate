@@ -15,6 +15,13 @@
       "when": 1761614509982,
       "tag": "0001_medical_talisman",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762847878946,
+      "tag": "0002_loud_loners",
+      "breakpoints": true
     }
   ]
 }
