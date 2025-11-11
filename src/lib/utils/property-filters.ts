@@ -20,6 +20,7 @@ export interface PropertySearchParams {
     bedrooms?: string;
     bathrooms?: string;
     status?: string;
+    propertyType?: string;
     listedDateFrom?: string;
     listedDateTo?: string;
     minPrice?: string;
@@ -87,6 +88,13 @@ export function parsePropertyFilters(params: PropertySearchParams): PropertyFilt
         const statuses = toArray(params.status) as ('buy' | 'rent' | 'sold')[] | undefined;
         if (statuses) {
             filters.status = statuses.length === 1 ? statuses[0] : statuses;
+        }
+    }
+
+    if (params.propertyType) {
+        const propertyTypes = toArray(params.propertyType);
+        if (propertyTypes) {
+            filters.propertyType = propertyTypes.length === 1 ? propertyTypes[0] : propertyTypes;
         }
     }
 
