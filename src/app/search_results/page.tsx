@@ -8,7 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PropertySearchSummary from "@/components/PropertySearchSummary";
 import PropertySort from "@/components/PropertySort";
-import SearchFiltersComponent from "@/components/SearchFiltersComponent";
+import SearchFilters from "@/components/filters/SearchFilters";
 import Pagination from "@/components/Pagination";
 import {getPropertiesAction} from "@/lib/db/actions/properties";
 
@@ -48,7 +48,7 @@ export default async function PropertiesPage({ searchParams }: PageProps) {
 
             <div className="py-2 border-b border-t-1 border-light-400 bg-white md:sticky z-10 top-0">
                 <div className="max-w-5xl mx-auto">
-                    <SearchFiltersComponent />
+                    <SearchFilters />
                 </div>
             </div>
 
