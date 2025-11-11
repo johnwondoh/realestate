@@ -1,0 +1,1 @@
+ALTER TABLE "properties" ADD COLUMN "country" varchar(100) NOT NULL;

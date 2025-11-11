@@ -22,11 +22,11 @@ export const properties = pgTable('properties', {
 
     // Address
     address: varchar('address', { length: 255 }).notNull(),
-    country: varchar('country', { length: 100 }).notNull(),
-    city: varchar('city', { length: 100 }).notNull(),
-    state: varchar('state', { length: 50 }).notNull(),
-    suburb: varchar('suburb', { length: 100 }).notNull(),
-    district: varchar('district', { length: 100 }).notNull(),
+    country: varchar('country', { length: 100 }),
+    city: varchar('city', { length: 100 }),
+    state: varchar('state', { length: 50 }),
+    suburb: varchar('suburb', { length: 100 }),
+    district: varchar('district', { length: 100 }),
     zip: varchar('zip', { length: 20 }).notNull(),
     latitude: decimal('latitude', { precision: 10, scale: 7 }),
     longitude: decimal('longitude', { precision: 10, scale: 7 }),
