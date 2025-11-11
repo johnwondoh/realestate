@@ -27,6 +27,17 @@ const propertyTypeMapping: Record<string, string> = {
     'Block Of Units': 'Block Of Units',
 };
 
+const reversePropertyTypeMapping: Record<string, string> = {
+    'house': 'House',
+    'apartment': 'Apartment',
+    'condo': 'Condo',
+    'townhouse': 'Townhouse',
+    'villa': 'Villa',
+    'land': 'Land',
+    'retirement': 'Retirement',
+    'Block Of Units': 'Block Of Units',
+};
+
 export default function SearchFilters({
     visibleFilters = ['listingType', 'price', 'beds', 'propertyTypes'],
     showSearchBar = true,
@@ -69,7 +80,9 @@ export default function SearchFilters({
         setBathrooms(bathroomsParam ? parseInt(bathroomsParam) : undefined);
 
         const propertyTypesParam = searchParams.get('propertyType');
-        setPropertyTypes(propertyTypesParam ? propertyTypesParam.split(',').map(t => t.trim()) : []);
+        setPropertyTypes(propertyTypesParam 
+            ? propertyTypesParam.split(',').map(t => reversePropertyTypeMapping[t.trim()] || t.trim()) 
+            : []);
 
         const suburbParam = searchParams.get('suburb');
         setLocations(suburbParam ? suburbParam.split(',').map(s => s.trim()) : []);
