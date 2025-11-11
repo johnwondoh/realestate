@@ -14,7 +14,7 @@ export default function AgencyMetrics({
      rentalMetrics
  }: AgencyMetricsProps)  {
     return (
-        <div className="w-full max-w-7xl mx-auto p-6 space-y-8">
+        <div className="w-full max-w-7xl mx-auto p-3 space-y-8">
             {/* Sales Performance */}
             {salesMetrics.length > 0 && (
                 <div>

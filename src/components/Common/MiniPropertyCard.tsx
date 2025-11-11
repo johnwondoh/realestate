@@ -7,7 +7,7 @@ export interface PropertyFeatures {
     parking?: number;
 }
 
-export interface PropertyAgencyCardProps {
+export interface PropertyCardProps {
     image: string;
     price: string;
     address: string;
@@ -15,25 +15,32 @@ export interface PropertyAgencyCardProps {
     state: string;
     postcode?: string;
     propertyType?: string;
-    features: PropertyFeatures;
+    // features: PropertyFeatures;
+    bedrooms?: number;
+    bathrooms?: number;
+    parking?: number;
+    createdOn?: string;
     agencyColor?: string;
     isFavorite?: boolean;
     onFavoriteToggle?: () => void;
 }
 
-export default function PropertyAgencyCard({
-   image,
-   price,
-   address,
-   suburb,
-   state,
-   postcode,
-   propertyType,
-   features,
-   agencyColor = '#4a5568',
-   isFavorite = false,
-   onFavoriteToggle
-}: PropertyAgencyCardProps) {
+export default function MiniPropertyCard({
+    image,
+    price,
+    address,
+    suburb,
+    state,
+    postcode,
+    propertyType,
+    // features,
+    bedrooms,
+    bathrooms,
+    parking,
+    agencyColor = '#4a5568',
+    isFavorite = false,
+    onFavoriteToggle
+}: PropertyCardProps) {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -48,7 +55,7 @@ export default function PropertyAgencyCard({
                     className="h-2"
                     style={{ backgroundColor: agencyColor }}
                 />
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-44 overflow-hidden">
                     <img
                         src={image}
                         alt={address}
@@ -58,12 +65,11 @@ export default function PropertyAgencyCard({
                     />
                 </div>
             </div>
-
             {/* Content Section */}
-            <div className="p-6 space-y-4">
+            <div className="p-3 space-y-4">
                 {/* Price with Star */}
                 <div className="flex items-center justify-between">
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-base font-bold text-gray-900">
                         {price}
                     </div>
                     <button
@@ -86,7 +92,7 @@ export default function PropertyAgencyCard({
                     <div className="text-base font-medium text-gray-900">
                         {address}
                     </div>
-                    <div className="text-base text-gray-600 uppercase tracking-wide">
+                    <div className="text-sm text-gray-600 uppercase tracking-wide">
                         {suburb} {state} {postcode}
                     </div>
                 </div>
@@ -94,22 +100,22 @@ export default function PropertyAgencyCard({
                 {/* Features and Property Type */}
                 <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                     <div className="flex items-center gap-4 text-gray-700">
-                        {features.bedrooms !== undefined && (
+                        {bedrooms && (
                             <div className="flex items-center gap-1.5">
                                 <Bed className="w-5 h-5" />
-                                <span className="text-base font-medium">{features.bedrooms}</span>
+                                <span className="text-sm font-medium">{bedrooms}</span>
                             </div>
                         )}
-                        {features.bathrooms !== undefined && (
+                        {bathrooms && (
                             <div className="flex items-center gap-1.5">
                                 <Bath className="w-5 h-5" />
-                                <span className="text-base font-medium">{features.bathrooms}</span>
+                                <span className="text-sm font-medium">{bathrooms}</span>
                             </div>
                         )}
-                        {features.parking !== undefined && (
+                        {parking && (
                             <div className="flex items-center gap-1.5">
                                 <Car className="w-5 h-5" />
-                                <span className="text-base font-medium">{features.parking}</span>
+                                <span className="text-sm font-medium">{parking}</span>
                             </div>
                         )}
                     </div>

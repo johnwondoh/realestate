@@ -13,7 +13,7 @@ export default function AgencyMetricStatCard({
    label
 }: AgencyMetricStatCardProps) {
     const renderIcon = () => {
-        const iconClass = "w-10 h-10 stroke-2";
+        const iconClass = "w-5 h-5 stroke-2";
 
         switch (icon) {
             case 'dollar':
@@ -21,14 +21,7 @@ export default function AgencyMetricStatCard({
             case 'clock':
                 return <Clock className={iconClass} />;
             case 'sold':
-                return (
-                    <div className="relative">
-                        <Home className={iconClass} />
-                        <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[8px] font-bold">
-              SOLD
-            </span>
-                    </div>
-                );
+                return <Home className={iconClass} />
             case 'home':
                 return <Home className={iconClass} />;
             case 'people':
@@ -39,12 +32,12 @@ export default function AgencyMetricStatCard({
     };
 
     return (
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col gap-4 hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-l-lg border border-gray-200 p-3 flex flex-col gap-4 hover:shadow-md transition-shadow">
             <div className="text-gray-700">
                 {renderIcon()}
             </div>
             <div>
-                <div className="text-4xl font-bold text-gray-900 mb-2">
+                <div className="text-lg font-bold text-gray-900 mb-2">
                     {value}
                 </div>
                 <div className="text-gray-600 text-base leading-snug">

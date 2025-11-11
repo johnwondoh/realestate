@@ -4,7 +4,7 @@ import React from 'react';
 
 import PropertyDescription from "@/components/PropertyDetails/PropertyDescription";
 import PropertyFeatures from "@/components/PropertyDetails/PropertyFeatures";
-import AgentContactCard from "@/components/PropertyDetails/AgentContactCard";
+import AgentContactCard from "@/components/Common/AgentContactCard";
 import PropertyMap from "@/components/PropertyDetails/PropertyMap";
 import PropertyHero from "@/components/PropertyDetails/PropertyHero";
 import PropertyBasicInspection from "@/components/PropertyDetails/PropertyBasicInspection";

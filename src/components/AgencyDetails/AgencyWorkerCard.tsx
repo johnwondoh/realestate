@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, Phone, Star, User } from 'lucide-react';
 
+import AgencyWorkerStat from "@/components/AgencyDetails/AgencyWorkerStat";
+
 export interface WorkerStats {
     forRent?: number;
     leased?: number;
@@ -30,7 +32,7 @@ export default function AgencyWorkerCard({
    phoneNumber,
    stats,
    agencyColor = '#003366'
-}: AgencyWorkerCardProps) {
+}: AgencyWorkerCardProps ){
     const handleEmail = () => {
         if (email) {
             window.location.href = `mailto:${email}`;
@@ -63,41 +65,41 @@ export default function AgencyWorkerCard({
             />
 
             {/* Profile Section */}
-            <div className="p-8">
+            <div className="p-4">
                 {/* Image and Name Section */}
-                <div className="flex items-start gap-6 mb-6">
+                <div className="flex items-start gap-6 mb-3">
                     {/* Profile Image or Placeholder */}
                     {image ? (
                         <img
                             src={image}
                             alt={name}
-                            className="w-32 h-32 rounded-full object-cover flex-shrink-0 shadow-md"
+                            className="w-16 h-16 rounded-full object-cover flex-shrink-0 shadow-md"
                         />
                     ) : (
-                        <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 shadow-md">
+                        <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 shadow-md">
                             <User className="w-16 h-16 text-gray-400" />
                         </div>
                     )}
 
                     {/* Name, Role, and Rating */}
                     <div className="flex-1 pt-2">
-                        <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                        <h2 className="text-base font-semibold text-gray-900 mb-2">
                             {name}
                         </h2>
-                        <p className="text-xl text-gray-600 mb-3">
+                        <p className="text-sm text-gray-600 mb-3">
                             {role}
                         </p>
 
                         {/* Rating */}
                         {hasRating && (
                             <div className="flex items-center gap-2">
-                                <Star className="w-6 h-6 fill-yellow-400 stroke-yellow-400" />
-                                <span className="text-lg font-semibold text-gray-900">
-                  {stats.rating}
-                </span>
-                                <span className="text-gray-500">
-                  ({stats.reviewCount} {stats.reviewCount === 1 ? 'review' : 'reviews'})
-                </span>
+                                <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
+                                <span className="text-sm font-semibold text-gray-900">
+                                  {stats.rating}
+                                </span>
+                                <span className="text-xs text-gray-500">
+                                  ({stats.reviewCount} {stats.reviewCount === 1 ? 'review' : 'reviews'})
+                                </span>
                             </div>
                         )}
                     </div>
@@ -105,66 +107,33 @@ export default function AgencyWorkerCard({
 
                 {/* Stats Section */}
                 {hasStats ? (
-                    <div className="grid grid-cols-2 gap-6 mb-6 py-6 border-y border-gray-200">
+                    // <div className="grid grid-cols-2 gap-6 mb-4 py-6 border-y border-gray-200">
+                    <div className="flex gap-6 mb-4 py-6 border-y border-gray-200">
                         {stats.forRent !== undefined && (
-                            <div>
-                                <div className="text-4xl font-bold text-gray-900">
-                                    {stats.forRent}
-                                </div>
-                                <div className="text-gray-600 mt-1">
-                                    For rent
-                                </div>
-                            </div>
+                            <AgencyWorkerStat value={stats.forRent} label="For rent" />
                         )}
                         {stats.leased !== undefined && (
-                            <div>
-                                <div className="text-4xl font-bold text-gray-900">
-                                    {stats.leased}
-                                </div>
-                                <div className="text-gray-600 mt-1">
-                                    Leased
-                                </div>
-                            </div>
+                            <AgencyWorkerStat value={stats.leased} label="Leased" />
                         )}
                         {stats.forSale !== undefined && (
-                            <div>
-                                <div className="text-4xl font-bold text-gray-900">
-                                    {stats.forSale}
-                                </div>
-                                <div className="text-gray-600 mt-1">
-                                    For sale
-                                </div>
-                            </div>
+                            <AgencyWorkerStat value={stats.forSale} label="For sale" />
                         )}
                         {stats.sold !== undefined && (
-                            <div>
-                                <div className="text-4xl font-bold text-gray-900">
-                                    {stats.sold}
-                                </div>
-                                <div className="text-gray-600 mt-1">
-                                    Properties sold
-                                </div>
-                            </div>
+                            <AgencyWorkerStat value={stats.sold} label="Properties sold" />
                         )}
                         {stats.medianSalePrice && (
-                            <div className="col-span-2">
-                                <div className="text-4xl font-bold text-gray-900">
-                                    {stats.medianSalePrice}
-                                </div>
-                                <div className="text-gray-600 mt-1">
-                                    Median sale price
-                                </div>
-                            </div>
+                            <AgencyWorkerStat
+                                value={stats.medianSalePrice}
+                                label="Median sale price"
+                                fullWidth
+                            />
                         )}
                         {stats.medianLeasedPrice && (
-                            <div className="col-span-2">
-                                <div className="text-4xl font-bold text-gray-900">
-                                    {stats.medianLeasedPrice}
-                                </div>
-                                <div className="text-gray-600 mt-1">
-                                    Median leased price per week
-                                </div>
-                            </div>
+                            <AgencyWorkerStat
+                                value={stats.medianLeasedPrice}
+                                label="Median leased price per week"
+                                fullWidth
+                            />
                         )}
                     </div>
                 ) : (
@@ -181,18 +150,18 @@ export default function AgencyWorkerCard({
                         {email && (
                             <button
                                 onClick={handleEmail}
-                                className="flex-1 flex items-center justify-center gap-3 px-6 py-4 bg-white border-2 border-gray-800 text-gray-800 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors"
+                                className="flex-1 flex items-center justify-center gap-3 px-3 py-2 bg-white border-1 border-gray-800 text-gray-800 rounded-lg text-sm hover:bg-gray-50 transition-colors"
                             >
-                                <Mail className="w-5 h-5" />
+                                <Mail className="w-4 h-4" />
                                 Email
                             </button>
                         )}
                         {phoneNumber && (
                             <button
                                 onClick={handleCall}
-                                className="flex-1 flex items-center justify-center gap-3 px-6 py-4 bg-white border-2 border-gray-800 text-gray-800 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors"
+                                className="flex-1 flex items-center justify-center gap-3 px-2 py-2 bg-white border-1 border-gray-800 text-gray-800 rounded-lg text-sm hover:bg-gray-50 transition-colors"
                             >
-                                <Phone className="w-5 h-5" />
+                                <Phone className="w-4 h-4" />
                                 Call
                             </button>
                         )}
