@@ -33,6 +33,7 @@ export interface PropertyFilters {
     bedrooms?: number;
     bathrooms?: number;
     status?: PropertyStatus | PropertyStatus[];
+    propertyType?: string | string[];
 
     // Dates
     listedDateFrom?: Date | string;
@@ -135,6 +136,15 @@ function buildWhereConditions(filters?: PropertyFilters): SQL[] {
             conditions.push(inArray(properties.status, filters.status));
         } else if (typeof filters.status === 'string') {
             conditions.push(eq(properties.status, filters.status));
+        }
+    }
+
+    // Property Type
+    if (filters.propertyType) {
+        if (Array.isArray(filters.propertyType) && filters.propertyType.length > 0) {
+            conditions.push(inArray(properties.propertyType, filters.propertyType));
+        } else if (typeof filters.propertyType === 'string') {
+            conditions.push(eq(properties.propertyType, filters.propertyType));
         }
     }
 

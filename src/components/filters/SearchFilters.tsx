@@ -16,6 +16,17 @@ interface SearchFiltersProps {
     className?: string;
 }
 
+const propertyTypeMapping: Record<string, string> = {
+    'House': 'house',
+    'Apartment': 'apartment',
+    'Condo': 'condo',
+    'Townhouse': 'townhouse',
+    'Villa': 'villa',
+    'Land': 'land',
+    'Retirement': 'retirement',
+    'Block Of Units': 'Block Of Units',
+};
+
 export default function SearchFilters({
     visibleFilters = ['listingType', 'price', 'beds', 'propertyTypes'],
     showSearchBar = true,
@@ -34,32 +45,46 @@ export default function SearchFilters({
     const [propertyTypes, setPropertyTypes] = useState<string[]>([]);
     const [bathrooms, setBathrooms] = useState<number | undefined>();
 
+    const [draftListingType, setDraftListingType] = useState<'buy' | 'rent' | 'sold'>('buy');
+    const [draftMinPrice, setDraftMinPrice] = useState<number | undefined>();
+    const [draftMaxPrice, setDraftMaxPrice] = useState<number | undefined>();
+    const [draftBedrooms, setDraftBedrooms] = useState<number | undefined>();
+    const [draftPropertyTypes, setDraftPropertyTypes] = useState<string[]>([]);
+    const [draftBathrooms, setDraftBathrooms] = useState<number | undefined>();
+
     useEffect(() => {
         const status = searchParams.get('status') as 'buy' | 'rent' | 'sold' | null;
-        if (status) setListingType(status);
+        setListingType(status || 'buy');
 
         const minPriceParam = searchParams.get('minPrice');
-        if (minPriceParam) setMinPrice(parseFloat(minPriceParam));
+        setMinPrice(minPriceParam ? parseFloat(minPriceParam) : undefined);
 
         const maxPriceParam = searchParams.get('maxPrice');
-        if (maxPriceParam) setMaxPrice(parseFloat(maxPriceParam));
+        setMaxPrice(maxPriceParam ? parseFloat(maxPriceParam) : undefined);
 
         const bedroomsParam = searchParams.get('bedrooms');
-        if (bedroomsParam) setBedrooms(parseInt(bedroomsParam));
+        setBedrooms(bedroomsParam ? parseInt(bedroomsParam) : undefined);
 
         const bathroomsParam = searchParams.get('bathrooms');
-        if (bathroomsParam) setBathrooms(parseInt(bathroomsParam));
+        setBathrooms(bathroomsParam ? parseInt(bathroomsParam) : undefined);
 
         const propertyTypesParam = searchParams.get('propertyType');
-        if (propertyTypesParam) {
-            setPropertyTypes(propertyTypesParam.split(',').map(t => t.trim()));
-        }
+        setPropertyTypes(propertyTypesParam ? propertyTypesParam.split(',').map(t => t.trim()) : []);
 
         const suburbParam = searchParams.get('suburb');
-        if (suburbParam) {
-            setLocations(suburbParam.split(',').map(s => s.trim()));
-        }
+        setLocations(suburbParam ? suburbParam.split(',').map(s => s.trim()) : []);
     }, [searchParams]);
+
+    useEffect(() => {
+        if (isDrawerOpen) {
+            setDraftListingType(listingType);
+            setDraftMinPrice(minPrice);
+            setDraftMaxPrice(maxPrice);
+            setDraftBedrooms(bedrooms);
+            setDraftBathrooms(bathrooms);
+            setDraftPropertyTypes(propertyTypes);
+        }
+    }, [isDrawerOpen, listingType, minPrice, maxPrice, bedrooms, bathrooms, propertyTypes]);
 
     const updateURL = (params: Record<string, string | undefined>) => {
         const current = new URLSearchParams(searchParams);
@@ -85,7 +110,7 @@ export default function SearchFilters({
             maxPrice: maxPrice?.toString(),
             bedrooms: bedrooms?.toString(),
             bathrooms: bathrooms?.toString(),
-            propertyType: propertyTypes.length > 0 ? propertyTypes.join(',') : undefined,
+            propertyType: propertyTypes.length > 0 ? propertyTypes.map(t => propertyTypeMapping[t] || t).join(',') : undefined,
         });
     };
 
@@ -98,7 +123,7 @@ export default function SearchFilters({
             maxPrice: maxPrice?.toString(),
             bedrooms: bedrooms?.toString(),
             bathrooms: bathrooms?.toString(),
-            propertyType: propertyTypes.length > 0 ? propertyTypes.join(',') : undefined,
+            propertyType: propertyTypes.length > 0 ? propertyTypes.map(t => propertyTypeMapping[t] || t).join(',') : undefined,
         });
     };
 
@@ -112,7 +137,7 @@ export default function SearchFilters({
             maxPrice: max?.toString(),
             bedrooms: bedrooms?.toString(),
             bathrooms: bathrooms?.toString(),
-            propertyType: propertyTypes.length > 0 ? propertyTypes.join(',') : undefined,
+            propertyType: propertyTypes.length > 0 ? propertyTypes.map(t => propertyTypeMapping[t] || t).join(',') : undefined,
         });
     };
 
@@ -125,7 +150,7 @@ export default function SearchFilters({
             maxPrice: maxPrice?.toString(),
             bedrooms: value?.toString(),
             bathrooms: bathrooms?.toString(),
-            propertyType: propertyTypes.length > 0 ? propertyTypes.join(',') : undefined,
+            propertyType: propertyTypes.length > 0 ? propertyTypes.map(t => propertyTypeMapping[t] || t).join(',') : undefined,
         });
     };
 
@@ -138,7 +163,7 @@ export default function SearchFilters({
             maxPrice: maxPrice?.toString(),
             bedrooms: bedrooms?.toString(),
             bathrooms: bathrooms?.toString(),
-            propertyType: values.length > 0 ? values.join(',') : undefined,
+            propertyType: values.length > 0 ? values.map(t => propertyTypeMapping[t] || t).join(',') : undefined,
         });
     };
 
@@ -147,14 +172,21 @@ export default function SearchFilters({
     };
 
     const handleApplyFilters = () => {
+        setListingType(draftListingType);
+        setMinPrice(draftMinPrice);
+        setMaxPrice(draftMaxPrice);
+        setBedrooms(draftBedrooms);
+        setBathrooms(draftBathrooms);
+        setPropertyTypes(draftPropertyTypes);
+
         updateURL({
-            status: listingType,
+            status: draftListingType,
             suburb: locations.length > 0 ? locations.join(',') : undefined,
-            minPrice: minPrice?.toString(),
-            maxPrice: maxPrice?.toString(),
-            bedrooms: bedrooms?.toString(),
-            bathrooms: bathrooms?.toString(),
-            propertyType: propertyTypes.length > 0 ? propertyTypes.join(',') : undefined,
+            minPrice: draftMinPrice?.toString(),
+            maxPrice: draftMaxPrice?.toString(),
+            bedrooms: draftBedrooms?.toString(),
+            bathrooms: draftBathrooms?.toString(),
+            propertyType: draftPropertyTypes.length > 0 ? draftPropertyTypes.map(t => propertyTypeMapping[t] || t).join(',') : undefined,
         });
         setIsDrawerOpen(false);
     };
@@ -246,8 +278,8 @@ export default function SearchFilters({
                             Listing Type
                         </label>
                         <select
-                            value={listingType}
-                            onChange={(e) => setListingType(e.target.value as 'buy' | 'rent' | 'sold')}
+                            value={draftListingType}
+                            onChange={(e) => setDraftListingType(e.target.value as 'buy' | 'rent' | 'sold')}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                         >
                             <option value="buy">Buy</option>
@@ -261,8 +293,8 @@ export default function SearchFilters({
                             Bedrooms
                         </label>
                         <select
-                            value={bedrooms || ''}
-                            onChange={(e) => setBedrooms(e.target.value ? parseInt(e.target.value) : undefined)}
+                            value={draftBedrooms || ''}
+                            onChange={(e) => setDraftBedrooms(e.target.value ? parseInt(e.target.value) : undefined)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                         >
                             <option value="">Any</option>
@@ -278,8 +310,8 @@ export default function SearchFilters({
                             Bathrooms
                         </label>
                         <select
-                            value={bathrooms || ''}
-                            onChange={(e) => setBathrooms(e.target.value ? parseInt(e.target.value) : undefined)}
+                            value={draftBathrooms || ''}
+                            onChange={(e) => setDraftBathrooms(e.target.value ? parseInt(e.target.value) : undefined)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                         >
                             <option value="">Any</option>
@@ -296,8 +328,8 @@ export default function SearchFilters({
                         </label>
                         <input
                             type="number"
-                            value={minPrice || ''}
-                            onChange={(e) => setMinPrice(e.target.value ? parseFloat(e.target.value) : undefined)}
+                            value={draftMinPrice || ''}
+                            onChange={(e) => setDraftMinPrice(e.target.value ? parseFloat(e.target.value) : undefined)}
                             placeholder="No min"
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                         />
@@ -309,8 +341,8 @@ export default function SearchFilters({
                         </label>
                         <input
                             type="number"
-                            value={maxPrice || ''}
-                            onChange={(e) => setMaxPrice(e.target.value ? parseFloat(e.target.value) : undefined)}
+                            value={draftMaxPrice || ''}
+                            onChange={(e) => setDraftMaxPrice(e.target.value ? parseFloat(e.target.value) : undefined)}
                             placeholder="No max"
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                         />
@@ -321,19 +353,19 @@ export default function SearchFilters({
                             Property Types
                         </label>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            {['House', 'Apartment', 'Condo', 'Townhouse', 'Villa', 'Land', 'Retirement', 'Block Of Units'].map((type) => (
+                            {Object.keys(propertyTypeMapping).map((type) => (
                                 <label
                                     key={type}
                                     className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded"
                                 >
                                     <input
                                         type="checkbox"
-                                        checked={propertyTypes.includes(type)}
+                                        checked={draftPropertyTypes.includes(type)}
                                         onChange={() => {
-                                            const newTypes = propertyTypes.includes(type)
-                                                ? propertyTypes.filter(t => t !== type)
-                                                : [...propertyTypes, type];
-                                            setPropertyTypes(newTypes);
+                                            const newTypes = draftPropertyTypes.includes(type)
+                                                ? draftPropertyTypes.filter(t => t !== type)
+                                                : [...draftPropertyTypes, type];
+                                            setDraftPropertyTypes(newTypes);
                                         }}
                                         className="w-4 h-4 text-green-600 rounded focus:ring-2 focus:ring-green-500"
                                     />

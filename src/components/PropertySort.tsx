@@ -21,7 +21,7 @@ export default function PropertySort({
                                      }: PropertySortProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const currentSort = searchParams.get('sort') || defaultValue;
+    const currentSort = searchParams.get('sortBy') || defaultValue;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -30,8 +30,8 @@ export default function PropertySort({
     const handleSelect = (value: string) => {
         setIsOpen(false);
         const params = new URLSearchParams(searchParams);
-        params.set('sort', value);
-        params.delete('page'); // Reset to page 1 when sorting changes
+        params.set('sortBy', value);
+        params.delete('page');
         router.push(`?${params.toString()}`);
     };
 
