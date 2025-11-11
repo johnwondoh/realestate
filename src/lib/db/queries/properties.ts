@@ -80,7 +80,7 @@ function buildWhereConditions(filters?: PropertyFilters): SQL[] {
     const conditions: SQL[] = [];
 
     // Helper: add string/array filter
-    const addFilter = (column: any, value?: string | string[]) => {
+    const addFilter = (column: typeof properties.country | typeof properties.city | typeof properties.state | typeof properties.suburb | typeof properties.district, value?: string | string[]) => {
         if (!value) return;
         if (Array.isArray(value) && value.length > 0) {
             conditions.push(inArray(column, value));
@@ -90,7 +90,7 @@ function buildWhereConditions(filters?: PropertyFilters): SQL[] {
     };
 
     // Helper: add number/array filter
-    const addIdFilter = (column: any, value?: number | number[]) => {
+    const addIdFilter = (column: typeof properties.agencyId | typeof properties.agentId | typeof properties.id, value?: number | number[]) => {
         if (!value) return;
         if (Array.isArray(value) && value.length > 0) {
             conditions.push(inArray(column, value));
