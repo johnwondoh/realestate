@@ -53,8 +53,8 @@ export default function FilterDrawer({
     return (
         <div className="fixed inset-0 z-50 flex flex-col justify-end">
             <div
-                className={`absolute inset-0 bg-black transition-opacity duration-300 ${
-                    isAnimating ? 'bg-opacity-25' : 'bg-opacity-0'
+                className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${
+                    isAnimating ? 'opacity-100' : 'opacity-0'
                 }`}
                 onClick={onClose}
             />
