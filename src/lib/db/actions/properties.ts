@@ -9,6 +9,10 @@ import { queryProperties, type PropertyQueryResult } from '@/lib/db/queries/prop
 // import { parsePropertyFilters, parseSortBy, type PropertySearchParams } from '@/lib/utils/property-filters';
 import {parsePropertyFilters, parseSortBy, type PropertySearchParams} from "@/lib/utils/property-filters";
 
+import {properties, agents, agencies} from "@/lib/db/schema";
+import { db } from '@/lib/db';
+import { eq } from 'drizzle-orm';
+
 type SuccessResult = {
     success: true;
     data: PropertyQueryResult;
@@ -46,6 +50,89 @@ export async function getPropertiesAction(
         };
     }
 }
+
+// ============================================================================
+// Single Property Actions
+// ============================================================================
+
+export type SinglePropertyResult = {
+    property: typeof properties.$inferSelect;
+    agent: typeof agents.$inferSelect | null;
+    agency: typeof agencies.$inferSelect | null;
+};
+
+type SinglePropertySuccess = {
+    success: true;
+    data: SinglePropertyResult;
+};
+
+type SinglePropertyError = {
+    success: false;
+    error: string;
+};
+
+export type SinglePropertyActionResult = SinglePropertySuccess | SinglePropertyError;
+
+/**
+ * Get a single property by ID
+ * Optimized for single record retrieval
+ */
+export async function getPropertyByIdAction(
+    propertyId: number
+): Promise<SinglePropertyActionResult> {
+    try {
+        const result = await db
+            .select({
+                property: properties,
+                agent: agents,
+                agency: agencies,
+            })
+            .from(properties)
+            .leftJoin(agents, eq(properties.agentId, agents.id))
+            .leftJoin(agencies, eq(properties.agencyId, agencies.id))
+            .where(eq(properties.id, propertyId))
+            .limit(1);
+
+        if (result.length === 0) {
+            return {
+                success: false,
+                error: 'Property not found',
+            };
+        }
+
+        return {
+            success: true,
+            data: result[0],
+        };
+    } catch (error) {
+        console.error('Error in getPropertyByIdAction:', error);
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to fetch property',
+        };
+    }
+}
+
+/**
+ * Get property by ID (slug-friendly version)
+ * Accepts either numeric ID or string that can be parsed
+ */
+export async function getPropertyAction(
+    id: string | number
+): Promise<SinglePropertyActionResult> {
+    const propertyId = typeof id === 'string' ? parseInt(id) : id;
+
+    if (isNaN(propertyId)) {
+        return {
+            success: false,
+            error: 'Invalid property ID',
+        };
+    }
+
+    return getPropertyByIdAction(propertyId);
+}
+
+
 
 
 // 'use server';

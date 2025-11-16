@@ -12,6 +12,7 @@ import SearchFilters from "@/components/filters/SearchFilters";
 import Pagination from "@/components/Pagination";
 import {getPropertiesAction} from "@/lib/db/actions/properties";
 
+
 interface PageProps {
     searchParams: Promise<{
         page?: string;
@@ -28,6 +29,8 @@ export default async function PropertiesPage({ searchParams }: PageProps) {
     const params = await searchParams;
     // const currentPage = Number(params.page) || 1;
     const sortBy = params.sort || 'featured';
+
+    console.log(params)
 
 
     const result = await getPropertiesAction(params);
@@ -78,6 +81,7 @@ export default async function PropertiesPage({ searchParams }: PageProps) {
                                     properties.map(({ property, agent, agency }) => (
                                         <Card
                                             key={property.id}
+                                            propertyId={property.id}
                                             companyName={agency?.name || 'N/A'}
                                             agentName={
                                                 agent

@@ -4,41 +4,44 @@ import { useState } from "react";
 import { BedDouble, Bath, CarFront, RotateCwSquare} from 'lucide-react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export interface CardProps {
-  companyName?: string;
-  companyLogo?: string;
-  agentName?: string;
-  agentPhoto?: string;
-  images: string[];
-  priceMin: number;
-  priceMax: number;
-  address: string;
-  bedrooms: number;
-  bathrooms: number;
-  parking: number;
-  size: number;
-  propertyType: string;
-  inspectionDate?: string;
-  className?: string;
+    propertyId: string | number;
+    companyName?: string;
+    companyLogo?: string;
+    agentName?: string;
+    agentPhoto?: string;
+    images: string[];
+    priceMin: number;
+    priceMax: number;
+    address: string;
+    bedrooms: number;
+    bathrooms: number;
+    parking: number;
+    size: number;
+    propertyType: string;
+    inspectionDate?: string;
+    className?: string;
 }
 
 export default function Card({
-  companyName = "belle PROPERTY",
-  companyLogo,
-  agentName = "Josh Hunt",
-  agentPhoto,
-  images,
-  priceMin,
-  priceMax,
-  address,
-  bedrooms,
-  bathrooms,
-  parking,
-  size,
-  propertyType,
-  inspectionDate,
-  className = "",
+    propertyId,
+    companyName = "belle PROPERTY",
+    companyLogo,
+    agentName = "Josh Hunt",
+    agentPhoto,
+    images,
+    priceMin,
+    priceMax,
+    address,
+    bedrooms,
+    bathrooms,
+    parking,
+    size,
+    propertyType,
+    inspectionDate,
+    className = "",
 }: CardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -145,6 +148,12 @@ export default function Card({
         )}
       </div>
 
+        <Link
+            href={`/properties/${propertyId}`}
+            key={propertyId}
+            className="block hover:shadow-lg transition"
+        >
+
       <div className="p-2">
         <div className="flex items-start justify-between ">
           <h4 className="text-lg font-bold text-gray-900">
@@ -202,6 +211,7 @@ export default function Card({
           <p className="text-sm text-gray-600">Inspection {inspectionDate}</p>
         )}
       </div>
+    </Link>
     </div>
   );
 }

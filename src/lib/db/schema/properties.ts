@@ -43,6 +43,8 @@ export const properties = pgTable('properties', {
     propertyType: propertyTypeEnum('property_type').notNull(),
 
     // Details
+    title: text('title'),
+    subTitle: text('sub_title'),
     description: text('description'),
     features: jsonb('features').$type<string[]>(), // ["pool", "garage", "fireplace"]
     images: jsonb('images').$type<string[]>(), // array of image URLs

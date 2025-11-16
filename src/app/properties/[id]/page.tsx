@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import React from 'react';
 
@@ -10,13 +10,62 @@ import PropertyHero from "@/components/PropertyDetails/PropertyHero";
 import PropertyBasicInspection from "@/components/PropertyDetails/PropertyBasicInspection";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import {getPropertiesAction, getPropertyAction, SinglePropertyActionResult} from "@/lib/db/actions/properties";
+import {PropertySearchParams} from "@/lib/utils/property-filters";
+import { notFound } from 'next/navigation';
 
 
-export default function PropertyDetailsPage(props) {
+import * as sea from "node:sea";
+
+interface PageProps {
+    searchParams: Promise<{
+        id?: string | number;
+    }>;
+}
+// export default async function PropertyDetailsPage({params}: { params: { id: string } })
+
+// export default async function PropertyDetailsPage({ searchParams }: PageProps) {
+// export default async function PropertyDetailsPage({searchParams}: PageProps) {
+export default async function PropertyDetailPage({params}: { params: { id: string | number } ; }){
+    // const result = await getPropertiesAction({id: id});
+    // const params = await searchParams;
+
+    console.log(params);
+
+    const propertyId = typeof params.id === 'string' ? parseInt(params.id) : params.id;
+
+    if ( (propertyId === undefined) || isNaN(propertyId)) {
+        return {
+            success: false,
+            error: 'Invalid property ID',
+        };
+    }
+    console.log(params)
+
+
+    // const result = await getPropertiesAction(params);
+    const result = await getPropertyAction(propertyId);
+
+    if (!result.success) {
+        notFound(); // Shows 404 page
+    }
+
+    const { property, agent, agency } = result.data;
+
+    // console.log(result);
     return (
         <>
             <Navbar/>
-            <PropertyHero/>
+            <PropertyHero
+                address={property.address}
+                bed={property.bedrooms}
+                bath={property.bathrooms}
+                size={property.sqft}
+                propertyType={property.propertyType}
+                minPrice={property.minPrice}
+                maxPrice={property.maxPrice}
+                images={property.images}
+            />
             {/*<div className="space-y-12 p-8 bg-gray-50">*/}
             <div className="space-y-12 p-8 ">
                     {/* OPTION 1: CSS Grid (Recommended) */}
@@ -31,13 +80,15 @@ export default function PropertyDetailsPage(props) {
                         <div className="md:col-span-6 p-6 ">
                             <div className="space-y-4">
                                 <div className="border-b bg-gray-400 border-gray-200">
-                                    <PropertyDescription/>
+                                    <PropertyDescription
+                                    />
                                 </div>
                                 <div className="border-b border-gray-200">
                                     <PropertyFeatures/>
                                 </div>
                                 <div className="border-b border-gray-200">
-                                    <PropertyMap/>
+                                    ---------- map here -------------
+                                    {/*<PropertyMap/>*/}
                                 </div>
                                 <div className="border-b border-gray-200">
                                     <PropertyBasicInspection/>
