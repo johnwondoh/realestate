@@ -13,6 +13,7 @@ export const agents = pgTable('agents', {
     lastName: varchar('last_name', { length: 100 }).notNull(),
     email: varchar('email', { length: 255 }).notNull(),
     phone: varchar('phone', { length: 50 }),
+    role: varchar('role', { length: 100 }).notNull(),
     photoUrl: text('photo_url'),
     bio: text('bio'),
     licenseNumber: varchar('license_number', { length: 100 }),

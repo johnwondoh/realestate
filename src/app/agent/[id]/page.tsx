@@ -1,6 +1,7 @@
-"use client";
+// "use client";
 
-import React, {useState} from 'react';
+// import React, {useState} from 'react';
+import React from 'react';
 import Navbar from "@/components/Navbar";
 import {PropertyCardProps} from "@/components/Common/MiniPropertyCard";
 import About from "@/components/Common/About";
@@ -9,6 +10,10 @@ import Footer from "@/components/Footer";
 // import {PropertyStatus, SortOption} from "@/components/Common/PropertySubView";
 import PropertySubView from "@/components/Common/PropertySubView";
 import AgentContactCard from "@/components/Common/AgentContactCard";
+
+// import { getAgentAction, getAgentPropertiesAction } from '@/actions/properties';
+import {getAgentAction} from "@/lib/db/actions/agents";
+import { notFound } from 'next/navigation';
 
 
 
@@ -178,26 +183,33 @@ const longDescription = 'Nitschke Real Estate is a family-owned agency that has 
 
 
 
-export default function AgentDetailsPage(){
+// export default function AgentDetailsPage(){
+export default async function AgentDetailsPage({
+   params,
+   searchParams,
+}: {
+        params: { id: string };
+        searchParams: { page?: string };
+    }) {
 
-    // const [isOpen, setIsOpen] = useState(false);
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [activeStatus, setActiveStatus] = useState<PropertyStatus>('for-sale');
-    // const [sortBy, setSortBy] = useState<SortOption>('newest');
-    // -----------------------
-    // const propertiesPerPage = 9;
-    // const startIndex = (currentPage - 1) * propertiesPerPage;
-    // const visibleProperties = agentProperties.slice(startIndex, startIndex + propertiesPerPage);
-// -----------------------
+    const agentResult = await getAgentAction(params.id);
 
+    if (!agentResult.success) {
+        notFound();
+    }
+
+    const { agent, agency } = agentResult.data;
+
+    // console.log(agent)
 
     const handleRequestAppraisal = () => {
         alert('Request appraisal clicked!');
     };
 
-    const handleShare = () => {
-        alert('Share clicked!');
-    };
+    // const handleShare = () => {
+    //     alert('Share clicked!');
+    // };
+    const handleShare = '';
 
 
     return (
@@ -211,7 +223,8 @@ export default function AgentDetailsPage(){
             <div className="min-h-screen bg-gray-100 py-8">
                 <div className="max-w-7xl mx-auto px-4">
                     <AgentHeaderCard
-                        name="Jon M. Jones"
+                        firstName={agent.firstName}
+                        lastName={agent.lastName}
                         role="Managing Director"
                         agencyName="JMJ Real Estate RLA 193520 - MOUNT BARKER"
                         agencyLink="https://example.com/nitschke"

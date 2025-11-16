@@ -30,7 +30,7 @@ export default async function PropertyDetailPage({params}: { params: { id: strin
     // const result = await getPropertiesAction({id: id});
     // const params = await searchParams;
 
-    console.log(params);
+    // console.log(params);
 
     const propertyId = typeof params.id === 'string' ? parseInt(params.id) : params.id;
 
@@ -81,14 +81,22 @@ export default async function PropertyDetailPage({params}: { params: { id: strin
                             <div className="space-y-4">
                                 <div className="border-b bg-gray-400 border-gray-200">
                                     <PropertyDescription
+                                        title={property.title}
+                                        subtitle={property.subTitle}
+                                        description={property.description}
+                                        wordLimit={10}
                                     />
                                 </div>
                                 <div className="border-b border-gray-200">
-                                    <PropertyFeatures/>
+                                    <PropertyFeatures
+                                        buildingSize={property.sqft}
+                                        bathrooms={property.bathrooms}
+                                        // ensuites={property}
+                                    />
                                 </div>
                                 <div className="border-b border-gray-200">
                                     ---------- map here -------------
-                                    {/*<PropertyMap/>*/}
+                                    <PropertyMap/>
                                 </div>
                                 <div className="border-b border-gray-200">
                                     <PropertyBasicInspection/>
@@ -104,7 +112,18 @@ export default async function PropertyDetailPage({params}: { params: { id: strin
                         <div className="md:col-span-3">
                             <div className="md:sticky md:top-6 p-3 rounded-lg">
                                 {/*<div className="bg-white p-4 rounded h-96 flex items-center justify-center">*/}
-                                    <AgentContactCard/>
+                                    <AgentContactCard
+                                        agentId={agent.id}
+                                        firstName={agent.firstName}
+                                        lastName={agent.lastName}
+                                        phoneNumber={agent.phone}
+                                        photoUrl={agent.photoUrl}
+                                        propertyAddress={property.address}
+                                        agencyName={agency.name}
+                                        agencyCity={agency.city}
+                                        agencyColor={agency.brandColor}
+
+                                    />
                                 {/*</div>*/}
                             </div>
                         </div>
@@ -113,17 +132,6 @@ export default async function PropertyDetailPage({params}: { params: { id: strin
                     </div>
                 </div>
             </div>
-
-                                            {/* OPTION 2: Flexbox with Percentage */}
-
-
-
-
-
-            {/*<PropertyDescription/>*/}
-            {/*<PropertyFeatures/>*/}
-            {/*<AgentContactCard/>*/}
-            {/*<PropertyMap/>*/}
             <Footer/>
         </>
     );

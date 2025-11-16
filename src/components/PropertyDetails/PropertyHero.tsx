@@ -8,7 +8,7 @@ export interface PropertyHeroProps {
     propertyType?: string;
     minPrice?: number | string | null;
     maxPrice?: number | string | null;
-    images: Array<string>;
+    images: Array<string> | null;
 }
 
 export default function PropertyHero({
@@ -21,6 +21,9 @@ export default function PropertyHero({
                                          maxPrice,
                                          images = []
                                      }: PropertyHeroProps) {
+
+    // null
+    images = images || []
     return (
         <div className="max-w-7xl mx-auto">
             <div className="flex flex-col-reverse md:flex-row gap-0 md:h-[600px] lg:h-[900px]">

@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useMemo } from 'react';
 import { ChevronDown, SlidersHorizontal, Bed, Bath, Car, Star } from 'lucide-react';
 

@@ -2,8 +2,9 @@ import React from 'react';
 import { Star, Share2, User, Briefcase } from 'lucide-react';
 
 export interface AgentHeaderCardProps {
-    name: string;
-    role: string;
+    firstName: string;
+    lastName: string;
+    role?: string;
     agencyName: string;
     agencyLink?: string;
     image?: string;
@@ -14,7 +15,8 @@ export interface AgentHeaderCardProps {
 }
 
 export default function AgentHeaderCard({
-                                            name,
+                                            firstName,
+    lastName,
                                             role,
                                             agencyName,
                                             agencyLink,
@@ -45,7 +47,7 @@ export default function AgentHeaderCard({
                 {image ? (
                     <img
                         src={image}
-                        alt={name}
+                        alt={firstName + ' ' + lastName}
                         className="w-32 h-32 rounded-full object-cover flex-shrink-0 shadow-md"
                     />
                 ) : (
@@ -59,7 +61,7 @@ export default function AgentHeaderCard({
                     {/* Name and Share */}
                     <div className="flex items-start justify-between gap-4 mb-3">
                         <h1 className="text-4xl font-bold text-gray-900">
-                            {name}
+                            {firstName} {lastName}
                         </h1>
                         {onShare && (
                             <button
